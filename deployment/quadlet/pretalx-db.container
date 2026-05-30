@@ -1,0 +1,12 @@
+# FileName=pretalx-db
+[Container]
+ContainerName=pretalx-db
+EnvironmentFile=%h/pretalx/env/pretalx-db.env
+Image=docker.io/library/postgres:15-alpine
+NoNewPrivileges=true
+Volume=pretalx-database:/var/lib/postgresql/data
+Network=pretalx-backend.network
+
+[Service]
+Restart=always
+

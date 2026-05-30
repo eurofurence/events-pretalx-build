@@ -1,4 +1,4 @@
-FROM python:3.14-slim-trixie
+FROM python:3.14-trixie
 
 RUN apt-get update && \
     apt-get install -y git gettext libmariadb-dev libpq-dev locales libmemcached-dev build-essential \
@@ -26,7 +26,8 @@ COPY --chown=root:root deployment/docker/supervisord.conf /etc/supervisord.conf
 RUN pip3 install -U pip setuptools wheel typing && \
     pip3 install -e /pretalx/[mysql,postgres,redis] && \
     pip3 install pylibmc && \
-    pip3 install gunicorn
+    pip3 install gunicorn && \
+    pip3 install git+https://github.com/tjarbo/pretalx-social-auth.git@v1.0.0-alpha.3
 
 RUN apt-get update && \
     apt-get install -y nodejs npm && \

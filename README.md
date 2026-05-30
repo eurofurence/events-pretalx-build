@@ -1,3 +1,78 @@
+# eurofurence cfp
+
+This repository is a fork of of pretalx-docker with specifics of a eurofurence setup but should also work for you nearly out of the box. Mainly we run under rootless podman and orchestrate with systemd/quadlet instead of docker-compose. We avoid using exposing the password via cli by using env files instead through systemd.
+
+## Installation Process
+
+```
+
+# Install Deps
+sudo apt install podman podman-compose buildah git
+
+# Enable linger for the programming user
+sudo loginctl enable-linger programming
+
+# Checking out Repository
+git clone https://github.com/Akulatraxas/pretalx-docker-ef.git
+git checkout aku_main
+
+```
+
+## Configuration
+
+- mkdir -p  ~/pretalx/conf ~/pretalx/env ~/.config/containers/systemd/
+- Copy configuration files and modify them
+  - cp conf/pretalx.cfg \~/pretalx/conf/pretalx.cfg
+  - cp conf/ingress-nginx.conf \~/pretalx/conf/ingress-nginx.conf
+- Prepare environment files (Basically configuration files but used by quadlet to populate environment)
+  - cp conf/env/* \~/pretalx/env
+- Prepare env files
+  - cp deployment/quadlet/* \~/.config/containers/systemd/
+
+
+## First Run
+
+First boot of pretalx will take a while as it compiles the frontend , applied db migrations, populates tables etc. You can follow it with journalctl --user -f 
+
+```
+# Give it some time
+systemctl --user start pretalx-web ; journalctl --user -f 
+[...]
+INFO success: pretalxtask entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+
+# Do the Setup
+podman exec -it pretalx-web pretalx init 
+```
+
+## Normal Run
+
+Pretalx is managed by a series of systemd services that all have a dependency setup so they come up in the correct order on systemd boot. We run under the “programming” user and no sudo or root rights are required. You can check the status of the services:
+
+```
+# Show Status of all pretalx units
+systemctl --user status 'pretalx-*'
+# Just list the units
+systemctl --user list-units 'pretalx-*' --all
+
+# And then just use systemd to manage the services
+systemctl --user status pretalx-web
+
+In the end these are all podman containers
+podman ps 
+```
+
+---
+
+## Information
+
+If you need to rebuild quadlet files from a docker-compose you can use podlet:
+
+```
+podman run --rm -v .:/app:Z ghcr.io/containers/podlet:latest compose /app/docker-compose.ym
+```
+
+---
+
 # pretalx-docker
 
 This repository contains a docker-compose setup for a

@@ -1,0 +1,9 @@
+[Container]
+ContainerName=pretalx-redis
+Image=docker.io/library/redis:latest
+Network=pretalx-backend.network
+NoNewPrivileges=true
+Volume=pretalx-redis:/data
+
+[Service]
+Restart=always

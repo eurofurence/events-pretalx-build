@@ -1,0 +1,14 @@
+[Unit]
+Requires=pretalx-web.service
+After=pretalx-web.service
+
+[Container]
+ContainerName=pretalx-nginx
+Image=docker.io/library/nginx:latest
+Network=pretalx-frontend.network
+PublishPort=9000:80
+Volume=pretalx-public:/usr/share/nginx/pretalx
+Volume=%h/pretalx/conf/ingress-nginx.conf:/etc/nginx/conf.d/default.conf
+
+[Service]
+Restart=always

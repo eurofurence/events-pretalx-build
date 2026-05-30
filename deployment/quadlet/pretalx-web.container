@@ -1,0 +1,16 @@
+[Unit]
+Requires=pretalx-redis.service pretalx-db.service
+After=pretalx-redis.service pretalx-db.service
+
+[Container]
+ContainerName=pretalx-web
+EnvironmentFile=%h/pretalx/env/pretalx-web.env
+Image=ghcr.io/akulatraxas/pretalx-docker-ef:v2026.1.2
+Volume=%h/pretalx/conf/pretalx.cfg:/etc/pretalx/pretalx.cfg:ro
+Volume=pretalx-data:/data
+Volume=pretalx-public:/public
+Network=pretalx-frontend.network
+Network=pretalx-backend.network
+
+[Service]
+Restart=always
