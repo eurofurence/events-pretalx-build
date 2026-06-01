@@ -2,6 +2,8 @@
 
 This repository is a fork of of pretalx-docker with specifics of a eurofurence setup but should also work for you nearly out of the box. Mainly we run under rootless podman and orchestrate with systemd/quadlet instead of docker-compose. We avoid using exposing the password via cli by using env files instead through systemd.
 
+We install [social auth](https://github.com/Akulatraxas/pretalx-social-auth) by default so the provided images of pretalx support OIDC Logins.
+
 ## Installation Process
 
 ```
