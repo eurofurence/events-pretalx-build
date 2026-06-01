@@ -27,7 +27,7 @@ RUN pip3 install -U pip setuptools wheel typing && \
     pip3 install -e /pretalx/[mysql,postgres,redis] && \
     pip3 install pylibmc && \
     pip3 install gunicorn && \
-    pip3 install git+https://github.com/tjarbo/pretalx-social-auth.git@v1.0.0-alpha.3
+    pip3 install git+https://github.com/akulatraxas/pretalx-social-auth.git@v1.0.0-alpha.4
 
 RUN apt-get update && \
     apt-get install -y nodejs npm && \
